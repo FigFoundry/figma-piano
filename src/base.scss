@@ -20,14 +20,6 @@ body {
   margin: 24px;
 }
 
-.figma-light body {
-  // if needed
-}
-
-.figma-dark body {
-  // if needed
-}
-
 #root {
   width: 100%;
 }
@@ -40,7 +32,6 @@ body {
   }
 }
 
-// Select styles
 select {
   width: 100%;
   padding: 0.5rem;
@@ -53,33 +44,20 @@ select {
   color: var(--figma-color-text);
   box-shadow: 0px 0px 0px 1px var(--figma-color-border);
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' viewBox='0 0 6 6'%3E%3Cpath fill='%23${color}' fill-opacity='1' fill-rule='nonzero' stroke='none' d='m3 5 3-4H0z'%3E%3C/path%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' viewBox='0 0 6 6'%3E%3Cpath fill='%235E5E5E' fill-opacity='1' fill-rule='nonzero' stroke='none' d='m3 5 3-4H0z'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.7rem center;
   background-size: 0.65em auto;
 
-  // Using mask-image approach (better for theming)
-  &::after {
-    content: '';
-    position: absolute;
-    right: 0.7rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    background-color: var(--chevron-color);
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' viewBox='0 0 6 6'%3E%3Cpath fill='%23000' fill-opacity='1' fill-rule='nonzero' stroke='none' d='m3 5 3-4H0z'%3E%3C/path%3E%3C/svg%3E");
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    pointer-events: none;
+  .figma-dark & {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' viewBox='0 0 6 6'%3E%3Cpath fill='%23BEBEBE' fill-opacity='1' fill-rule='nonzero' stroke='none' d='m3 5 3-4H0z'%3E%3C/path%3E%3C/svg%3E");
   }
 
   &:focus {
-    border-color: var(--figma-color-border-selected);
+    border-color: var(--figma-color-text-tertiary);
   }
 }
 
-// Piano keyboard base styles
 .ReactPiano__Keyboard {
   position: relative;
   display: flex;
@@ -89,7 +67,6 @@ select {
 .ReactPiano__Key {
   display: flex;
 
-  // Accidental keys (black keys)
   &--accidental {
     background: #000;
     border-radius: 6px;
@@ -103,7 +80,6 @@ select {
       0px 2px 3px 0px rgba(0, 0, 0, 0.16);
   }
 
-  // Natural keys (white keys)
   &--natural {
     background: #fff;
     border: 1px solid transparent;
@@ -119,7 +95,6 @@ select {
     }
   }
 
-  // Active state styles
   &--active {
     background: #CCCCCC;
 
@@ -133,7 +108,6 @@ select {
     }
   }
 
-  // Disabled state styles
   &--disabled {
     &.ReactPiano__Key--accidental {
       background: #ddd;
@@ -145,7 +119,6 @@ select {
   }
 }
 
-// Note label styles
 .ReactPiano__NoteLabelContainer {
   flex: 1;
   align-self: flex-end;
@@ -171,7 +144,6 @@ select {
   }
 }
 
-// Dark theme overrides
 .PianoDarkTheme {
   .ReactPiano__Key {
     &--natural {
