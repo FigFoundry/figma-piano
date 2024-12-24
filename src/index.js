@@ -1,21 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Piano, KeyboardShortcuts, MidiNumbers } from 'react-piano';
-//import 'react-piano/dist/styles.css';
+import 'react-piano/dist/styles.css';
+
 import DimensionsProvider from './DimensionsProvider';
 import SoundfontProvider from './SoundfontProvider';
-import './base.scss';
+import './styles.css';
 
-// Create AudioContext with fallback
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioContext = new AudioContext();
+// webkitAudioContext fallback needed to support Safari
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const soundfontHostname = 'https://d1pzp51pvbm36p.cloudfront.net';
 
 const noteRange = {
   first: MidiNumbers.fromNote('c3'),
   last: MidiNumbers.fromNote('f4'),
 };
-
 const keyboardShortcuts = KeyboardShortcuts.create({
   firstNote: noteRange.first,
   lastNote: noteRange.last,
@@ -23,33 +22,25 @@ const keyboardShortcuts = KeyboardShortcuts.create({
 });
 
 function App() {
-  React.useEffect(() => {
-    // Resume AudioContext on first user interaction
-    const handleFirstInteraction = () => {
-      audioContext.resume();
-      document.removeEventListener('mousedown', handleFirstInteraction);
-      document.removeEventListener('keydown', handleFirstInteraction);
-    };
-    
-    document.addEventListener('mousedown', handleFirstInteraction);
-    document.addEventListener('keydown', handleFirstInteraction);
-    
-    return () => {
-      document.removeEventListener('mousedown', handleFirstInteraction);
-      document.removeEventListener('keydown', handleFirstInteraction);
-    };
-  }, []);
-
   return (
     <div>
-      <h1>Piano Plugin</h1>
+      <h1>react-piano demos</h1>
       <div className="mt-5">
-        <p>Basic piano</p>
+        <p>Basic piano with hardcoded width</p>
         <BasicPiano />
       </div>
+
       <div className="mt-5">
-        <p>Responsive piano</p>
+        <p>
+          Responsive piano which resizes to container's width. Try resizing the
+          window!
+        </p>
         <ResponsivePiano />
+      </div>
+
+      <div className="mt-5">
+        <p>Piano with custom styling - see styles.css</p>
+        <ResponsivePiano className="PianoDarkTheme" />
       </div>
     </div>
   );
@@ -78,7 +69,7 @@ function BasicPiano() {
 function ResponsivePiano(props) {
   return (
     <DimensionsProvider>
-      {({ containerWidth }) => (
+      {({ containerWidth, containerHeight }) => (
         <SoundfontProvider
           instrumentName="acoustic_grand_piano"
           audioContext={audioContext}
@@ -99,10 +90,5 @@ function ResponsivePiano(props) {
   );
 }
 
-// Wait for DOM to be ready
-document.addEventListener('DOMContentLoaded', () => {
-  const rootElement = document.getElementById('root');
-  if (rootElement) {
-    ReactDOM.render(<App />, rootElement);
-  }
-});
+const rootElement = document.getElementById('root');
+ReactDOM.render(<App />, rootElement);

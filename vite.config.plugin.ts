@@ -7,7 +7,9 @@ import sass from 'sass-embedded';
 
 export default defineConfig(({ mode }) => ({
   plugins: [
-    react(),
+    react({
+      include: "**/*.{jsx,tsx}",
+    }),
     viteSingleFile({
       removeViteModuleLoader: true,
     }),
@@ -26,6 +28,11 @@ export default defineConfig(({ mode }) => ({
   },
   root: path.resolve(__dirname, "src"),
   build: {
+    target: 'esnext',
+    assetsInlineLimit: 100000000,
+    chunkSizeWarningLimit: 100000000,
+    cssCodeSplit: false,
+    brotliSize: false,
     minify: mode === "production",
     cssMinify: mode === "production",
     sourcemap: false,
@@ -34,6 +41,7 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       input: path.resolve(__dirname, "src/plugin.html"),
       output: {
+        manualChunks: undefined,
         entryFileNames: "ui.js",
         format: "esm",
       },
@@ -44,5 +52,6 @@ export default defineConfig(({ mode }) => ({
       services: path.resolve(__dirname, "src/services"),
       utilities: path.resolve(__dirname, "src/utilities"),
     },
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
 }));

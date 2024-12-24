@@ -2,10 +2,26 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Figma Plugin React</title>
+  <title>Piano Plugin</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: Inter, sans-serif;
+    }
+  </style>
 </head>
 <body>
-  <div id="react-page"></div>
+  <div id="root"></div>
+  <script>
+    // Polyfill for requestAnimationFrame
+    window.requestAnimationFrame = window.requestAnimationFrame || function(callback) {
+      setTimeout(callback, 1000 / 60);
+    };
+    window.cancelAnimationFrame = window.cancelAnimationFrame || function(id) {
+      clearTimeout(id);
+    };
+  </script>
   <script type="module" src="./plugin.tsx"></script>
 </body>
 </html>
