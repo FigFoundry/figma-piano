@@ -3,17 +3,45 @@
   --system-ui: "Inter", system-ui, sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: var(--system-ui);
   font-weight: 400;
   font-size: 0.75rem;
   font-style: normal;
+  background-color: #2C2C2C;
+  margin: 3vw;
+  background: none;
 }
 
+.container {
+  height: auto;
+}
+
+.container [data-testid="container"] {
+  height: auto !important;
+}
+
+select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 0.063rem solid #eee;
+  border-radius: 6px;
+  outline: none;
+}
+
+select:focus {
+  border-color: #000;
+}
 
 .ReactPiano__Keyboard {
   position: relative;
   display: flex;
+  gap: 3px;
 }
 
 .ReactPiano__Key {
@@ -21,25 +49,25 @@ body {
 }
 
 .ReactPiano__Key--accidental {
-  background: #555;
-  border: 1px solid #fff;
-  border-top: 1px solid transparent;
-  border-radius: 0 0 4px 4px;
+  background: #000;
+  border-radius: 6px;
   cursor: pointer;
   height: 66%;
   z-index: 1;
   position: absolute;
   top: 0;
+  box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.16), 0px 2px 3px 0px rgba(0, 0, 0, 0.16);
 }
 
 .ReactPiano__Key--natural {
-  background: #f6f5f3;
-  border: 1px solid #888;
-  border-radius: 0 0 6px 6px;
+  background: #fff;
+  border: 1px solid transparent;
+  border-radius: 6px;
   cursor: pointer;
   z-index: 0;
   flex: 1;
   margin-right: 1px;
+  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.08);
 }
 
 .ReactPiano__Key--natural:last-child {
@@ -50,20 +78,20 @@ body {
  * Styles of "active" or pressed-down keys
  */
 .ReactPiano__Key--active {
-  background: #3ac8da;
+  background: transparent;
 }
 
 .ReactPiano__Key--active.ReactPiano__Key--accidental {
   border: 1px solid #fff;
-  border-top: 1px solid #3ac8da;
+  border-top: 1px solid transparent;
   /* Slight height reduction for "pushed-down" effect */
-  height: 65%;
+  box-shadow: none;
 }
 
 .ReactPiano__Key--active.ReactPiano__Key--natural {
-  border: 1px solid #3ac8da;
+  border: 1px solid transparent;
   /* Slight height reduction for "pushed-down" effect */
-  height: 98%;
+  box-shadow: none;
 }
 
 /*
@@ -100,42 +128,39 @@ body {
 }
 
 .ReactPiano__NoteLabel--accidental {
-  color: #f8e8d5;
+  color: #fff;
   margin-bottom: 3px;
 }
 
 .ReactPiano__NoteLabel--natural {
-  color: #888;
+  color: #000;
   margin-bottom: 3px;
 }
 
 .ReactPiano__NoteLabel--natural.ReactPiano__NoteLabel--active {
-  color: #f8e8d5;
+  color: #fff;
 }
 
 
 /* custom */
 
-.ReactPiano__Keyboard {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+.ReactPiano__Keyboard {}
 
 /* Dark theme styles */
 .PianoDarkTheme .ReactPiano__Key--natural {
   background: #404040;
-  border: 1px solid #666;
+  border: 1px solid transparent;
 }
 
 .PianoDarkTheme .ReactPiano__Key--accidental {
   background: #1a1a1a;
-  border: 1px solid #666;
+  border: 1px solid transparent;
 }
 
 .PianoDarkTheme .ReactPiano__Key--active {
-  background: #555;
+  background: #000;
 }
 
 .ReactPiano__Key--active {
-  background: #8ab4f8;
+  background: #CCCCCC;
 }

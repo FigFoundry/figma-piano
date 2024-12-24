@@ -21,16 +21,6 @@ const keyboardShortcuts = KeyboardShortcuts.create({
   keyboardConfig: KeyboardShortcuts.HOME_ROW,
 });
 
-/* const availableInstruments = [
-  "acoustic_grand_piano",
-  "electric_piano_1",
-  "electric_piano_2",
-  "violin",
-  "flute",
-  "acoustic_guitar_nylon",
-  "trumpet",
-]; */
-
 const availableInstruments = [
   "accordion",
   "acoustic_bass",
@@ -162,7 +152,6 @@ const availableInstruments = [
   "xylophone"
 ];
 
-
 function App() {
   const [selectedInstrument, setSelectedInstrument] = useState("acoustic_grand_piano");
 
@@ -172,7 +161,7 @@ function App() {
 
   return (
     <div>
-      <div className="mt-5">
+      <div className="">
         <select
           id="instrument-select"
           value={selectedInstrument}
@@ -185,7 +174,7 @@ function App() {
           ))}
         </select>
       </div>
-      <div className="mt-5">
+      <div className="container">
         <PianoComponent instrumentName={selectedInstrument} />
       </div>
     </div>
@@ -205,8 +194,8 @@ function PianoComponent({ instrumentName }) {
           playNote={playNote}
           stopNote={stopNote}
           disabled={isLoading}
-          keyboardShortcuts={keyboardShortcuts} // Keyboard functionality
-          keyWidthToHeightRatio={0.25} // Optional: Ensures proper sizing
+          keyboardShortcuts={keyboardShortcuts}
+          keyWidthToHeightRatio={0.25}
         />
       )}
     />

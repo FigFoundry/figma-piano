@@ -1,10 +1,9 @@
 import React from 'react';
 
-// Simple dimensions provider without external dependency
 class DimensionsProvider extends React.Component {
   state = {
-    containerWidth: 300,  // Default width
-    containerHeight: 200  // Default height
+    containerWidth: 300,
+    containerHeight: 200
   };
 
   componentDidMount() {
