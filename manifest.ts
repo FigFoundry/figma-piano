@@ -9,6 +9,6 @@ export default {
   ui: "./plugin.html",
   documentAccess: "dynamic-page",
   networkAccess: {
-    allowedDomains: ["none"],
+    allowedDomains: ["https://d1pzp51pvbm36p.cloudfront.net"],
   },
 };
