@@ -161,7 +161,7 @@ function App() {
 
   return (
     <div>
-      <div className="">
+      <div >
         <select
           id="instrument-select"
           value={selectedInstrument}
