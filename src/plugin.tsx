@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import { Piano, MidiNumbers, KeyboardShortcuts } from "react-piano";
 import SoundfontProvider from "./SoundfontProvider";
 import "./base.scss";
 
-// Create AudioContext with fallback
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
 const soundfontHostname = "https://d1pzp51pvbm36p.cloudfront.net";
@@ -14,7 +13,6 @@ const noteRange = {
   last: MidiNumbers.fromNote("f4"),
 };
 
-// Keyboard shortcuts for the home row
 const keyboardShortcuts = KeyboardShortcuts.create({
   firstNote: noteRange.first,
   lastNote: noteRange.last,
@@ -152,16 +150,33 @@ const availableInstruments = [
   "xylophone"
 ];
 
+const toSentenceCase = (str) => {
+  return str
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
+
 function App() {
   const [selectedInstrument, setSelectedInstrument] = useState("acoustic_grand_piano");
+  const pianoContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (pianoContainerRef.current) {
+      pianoContainerRef.current.focus();
+    }
+  }, []);
 
   const handleInstrumentChange = (event) => {
     setSelectedInstrument(event.target.value);
+    if (pianoContainerRef.current) {
+      pianoContainerRef.current.focus();
+    }
   };
 
   return (
     <div>
-      <div >
+      <div>
         <select
           id="instrument-select"
           value={selectedInstrument}
@@ -169,12 +184,17 @@ function App() {
         >
           {availableInstruments.map((instrument) => (
             <option key={instrument} value={instrument}>
-              {instrument.replace(/_/g, " ")}
+              {toSentenceCase(instrument)}
             </option>
           ))}
         </select>
       </div>
-      <div className="container">
+      <div 
+        className="container" 
+        ref={pianoContainerRef} 
+        tabIndex={0}
+        style={{ outline: 'none' }}
+      >
         <PianoComponent instrumentName={selectedInstrument} />
       </div>
     </div>
