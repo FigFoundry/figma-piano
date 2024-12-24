@@ -6,7 +6,6 @@
   <style>
     body {
       margin: 0;
-      padding: 16px;
       font-family: Inter, sans-serif;
     }
   </style>
@@ -14,7 +13,6 @@
 <body>
   <div id="root"></div>
   <script>
-    // Polyfill for requestAnimationFrame
     window.requestAnimationFrame = window.requestAnimationFrame || function(callback) {
       setTimeout(callback, 1000 / 60);
     };

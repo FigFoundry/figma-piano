@@ -1,8 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from "react-dom/client";
 import { Piano, KeyboardShortcuts, MidiNumbers } from 'react-piano';
-//import 'react-piano/dist/styles.css';
-import DimensionsProvider from './DimensionsProvider';
 import SoundfontProvider from './SoundfontProvider';
 import './base.scss';
 
@@ -24,33 +22,31 @@ const keyboardShortcuts = KeyboardShortcuts.create({
 
 function App() {
   React.useEffect(() => {
-    // Resume AudioContext on first user interaction
-    const handleFirstInteraction = () => {
-      audioContext.resume();
-      document.removeEventListener('mousedown', handleFirstInteraction);
-      document.removeEventListener('keydown', handleFirstInteraction);
+    const handleFirstInteraction = async () => {
+      try {
+        if (audioContext.state !== "running") {
+          await audioContext.resume();
+        }
+      } catch (error) {
+        console.error("AudioContext resume failed:", error);
+      } finally {
+        document.removeEventListener("mousedown", handleFirstInteraction);
+        document.removeEventListener("keydown", handleFirstInteraction);
+      }
     };
-    
-    document.addEventListener('mousedown', handleFirstInteraction);
-    document.addEventListener('keydown', handleFirstInteraction);
-    
+
+    document.addEventListener("mousedown", handleFirstInteraction);
+    document.addEventListener("keydown", handleFirstInteraction);
+
     return () => {
-      document.removeEventListener('mousedown', handleFirstInteraction);
-      document.removeEventListener('keydown', handleFirstInteraction);
+      document.removeEventListener("mousedown", handleFirstInteraction);
+      document.removeEventListener("keydown", handleFirstInteraction);
     };
   }, []);
 
   return (
     <div>
-      <h1>Piano Plugin</h1>
-      <div className="mt-5">
-        <p>Basic piano</p>
-        <BasicPiano />
-      </div>
-      <div className="mt-5">
-        <p>Responsive piano</p>
-        <ResponsivePiano />
-      </div>
+      <BasicPiano />
     </div>
   );
 }
@@ -75,34 +71,13 @@ function BasicPiano() {
   );
 }
 
-function ResponsivePiano(props) {
-  return (
-    <DimensionsProvider>
-      {({ containerWidth }) => (
-        <SoundfontProvider
-          instrumentName="acoustic_grand_piano"
-          audioContext={audioContext}
-          hostname={soundfontHostname}
-          render={({ isLoading, playNote, stopNote }) => (
-            <Piano
-              noteRange={noteRange}
-              width={containerWidth}
-              playNote={playNote}
-              stopNote={stopNote}
-              disabled={isLoading}
-              {...props}
-            />
-          )}
-        />
-      )}
-    </DimensionsProvider>
-  );
-}
-
-// Wait for DOM to be ready
-document.addEventListener('DOMContentLoaded', () => {
-  const rootElement = document.getElementById('root');
-  if (rootElement) {
-    ReactDOM.render(<App />, rootElement);
+document.addEventListener("DOMContentLoaded", () => {
+  const rootElement = document.getElementById("root");
+  if (!rootElement) {
+    console.error("Root element not found");
+    return;
   }
+
+  const root = createRoot(rootElement);
+  root.render(<App />);
 });
