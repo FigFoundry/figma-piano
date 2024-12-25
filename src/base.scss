@@ -8,9 +8,12 @@
   --key-accidental-active: #242424;
 }
 
-[data-theme="dark"] {
-  --key-natural-active: #242424;
-  --key-accidental-active: #000000;
+.figma-light {
+  --key-natural-active: #e6e6e6;
+}
+
+.figma-dark {
+  --key-natural-active: #CCCCCC;
 }
 
 * {
@@ -24,7 +27,7 @@ body {
   font-style: normal;
   background-color: var(--figma-color-bg);
   color: var(--figma-color-text);
-  margin: 24px;
+  margin: 16px 24px 24px 24px;
 }
 
 #root {
@@ -140,7 +143,7 @@ select {
   &--natural {
     color: #000;
     &.ReactPiano__NoteLabel--active {
-      color: #fff;
+      color: #000;
     }
   }
 }
