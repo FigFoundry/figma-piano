@@ -4,6 +4,13 @@
   font-size: 16px;
   --system-ui: "Inter", system-ui, sans-serif;
   --chevron-color: --figma-color-text-tertiary;
+  --key-natural-active: #CCCCCC;
+  --key-accidental-active: #242424;
+}
+
+[data-theme="dark"] {
+  --key-natural-active: #242424;
+  --key-accidental-active: #000000;
 }
 
 * {
@@ -26,7 +33,6 @@ body {
 
 .container {
   height: auto;
-
   [data-testid="container"] {
     height: auto !important;
   }
@@ -75,9 +81,14 @@ select {
     z-index: 1;
     position: absolute;
     top: 0;
-    box-shadow: 
+    box-shadow:
       0px 3px 8px 0px rgba(0, 0, 0, 0.16),
       0px 2px 3px 0px rgba(0, 0, 0, 0.16);
+    
+    &.ReactPiano__Key--active {
+      background: var(--key-accidental-active);
+      box-shadow: none;
+    }
   }
 
   &--natural {
@@ -93,17 +104,9 @@ select {
     &:last-child {
       margin-right: 0;
     }
-  }
 
-  &--active {
-    background: #CCCCCC;
-
-    &.ReactPiano__Key--accidental {
-      border: 1px solid #fff;
-      box-shadow: none;
-    }
-
-    &.ReactPiano__Key--natural {
+    &.ReactPiano__Key--active {
+      background: var(--key-natural-active);
       box-shadow: none;
     }
   }
@@ -112,7 +115,6 @@ select {
     &.ReactPiano__Key--accidental {
       background: #ddd;
     }
-
     &.ReactPiano__Key--natural {
       background: #eee;
     }
@@ -137,7 +139,6 @@ select {
 
   &--natural {
     color: #000;
-
     &.ReactPiano__NoteLabel--active {
       color: #fff;
     }
@@ -148,14 +149,18 @@ select {
   .ReactPiano__Key {
     &--natural {
       background: #404040;
+
+      &.ReactPiano__Key--active {
+        background: #666666;
+      }
     }
 
     &--accidental {
       background: #1a1a1a;
-    }
 
-    &--active {
-      background: #000;
+      &.ReactPiano__Key--active {
+        background: #000000;
+      }
     }
   }
 }
