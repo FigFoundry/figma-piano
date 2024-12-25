@@ -2,7 +2,7 @@
 
 export default {
   name: "Piano",
-  id: "0000000000000000000",
+  id: "1453662299129904150",
   api: "1.0.0",
   editorType: ["figma", "figjam"],
   main: "./canvas.js",
