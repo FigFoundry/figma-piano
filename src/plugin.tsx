@@ -8,16 +8,7 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
 const soundfontHostname = "https://d1pzp51pvbm36p.cloudfront.net";
 
-const noteRange = {
-  first: MidiNumbers.fromNote("c3"),
-  last: MidiNumbers.fromNote("f4"),
-};
-
-const keyboardShortcuts = KeyboardShortcuts.create({
-  firstNote: noteRange.first,
-  lastNote: noteRange.last,
-  keyboardConfig: KeyboardShortcuts.HOME_ROW,
-});
+const fixedKeyCount = 18;
 
 const availableInstruments = [
   "accordion",
@@ -159,6 +150,7 @@ const toSentenceCase = (str) => {
 
 function App() {
   const [selectedInstrument, setSelectedInstrument] = useState("acoustic_grand_piano");
+  const [firstNote, setFirstNote] = useState("c3");
   const pianoContainerRef = useRef(null);
 
   useEffect(() => {
@@ -174,17 +166,39 @@ function App() {
     }
   };
 
+  const handleFirstNoteChange = (event) => {
+    setFirstNote(event.target.value);
+    if (pianoContainerRef.current) {
+      pianoContainerRef.current.focus();
+    }
+  };
+
+  const availableNotes = ["c0", "c1", "c2", "c3", "c4", "c5", "c6", "c7"];
+
   return (
     <div>
-      <div>
+      <div style={{ display: "flex", gap: "0.5rem" }}>
         <select
           id="instrument-select"
           value={selectedInstrument}
           onChange={handleInstrumentChange}
+          style={{ flex: 1 }}
         >
           {availableInstruments.map((instrument) => (
             <option key={instrument} value={instrument}>
               {toSentenceCase(instrument)}
+            </option>
+          ))}
+        </select>
+        <select
+          id="first-note-select"
+          value={firstNote}
+          onChange={handleFirstNoteChange}
+          style={{ flex: 1 }}
+        >
+          {availableNotes.map((note) => (
+            <option key={note} value={note}>
+              {note === "c3" ? `${note.toUpperCase()} ♪♪♪ ヽ(ˇ∀ˇ )ゞ` : note.toUpperCase()}
             </option>
           ))}
         </select>
@@ -195,13 +209,29 @@ function App() {
         tabIndex={0}
         style={{ outline: 'none' }}
       >
-        <PianoComponent instrumentName={selectedInstrument} />
+        <PianoComponent instrumentName={selectedInstrument} firstNote={firstNote} />
       </div>
     </div>
   );
 }
 
-function PianoComponent({ instrumentName }) {
+function PianoComponent({ instrumentName, firstNote }) {
+  const fixedKeyCount = 18;
+
+  const firstMidiNumber = MidiNumbers.fromNote(firstNote);
+  const lastMidiNumber = firstMidiNumber + fixedKeyCount - 1;
+
+  const noteRange = {
+    first: firstMidiNumber,
+    last: lastMidiNumber,
+  };
+
+  const keyboardShortcuts = KeyboardShortcuts.create({
+    firstNote: noteRange.first,
+    lastNote: noteRange.last,
+    keyboardConfig: KeyboardShortcuts.HOME_ROW,
+  });
+
   return (
     <SoundfontProvider
       instrumentName={instrumentName}
